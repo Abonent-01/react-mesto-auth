@@ -1,4 +1,4 @@
-class Api {
+export default class Api {
   constructor({ baseUrl, headers }) {
       this._baseUrl = baseUrl;
       this._headers = headers;
@@ -28,11 +28,11 @@ updateUserProfile({ name, about }) {
     }).then(this._checkStatus);
   }
 
-  updateUserAvatar(data) {
+  updateUserAvatar(avatar) {
     return fetch(`${this._baseUrl}/users/me/avatar`, {
       method: "PATCH",
       body: JSON.stringify({
-        avatar: data.avatar,
+        avatar,
       }),
       headers: this._headers,
     }).then(this._checkStatus);
@@ -45,13 +45,13 @@ updateUserProfile({ name, about }) {
       }).then(this._checkStatus);
     }
 
-    postCard(data) {
+    postCard({ title, link }) {
       return fetch(`${this._baseUrl}/cards`, {
         method: "POST",
         headers: this._headers,
         body: JSON.stringify({
-          name: data.name,
-          link: data.link,
+          name: title,
+          link: link,
         }),
       }).then(this._checkStatus);
     }
@@ -63,29 +63,21 @@ updateUserProfile({ name, about }) {
       }).then(this._checkStatus);
     }
 
-    likeCard(cardId, isLiked) {
-      if (isLiked) {
-        return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
-          method: 'DELETE',
-          headers: this._headers,
-        })
-          .then(this._checkStatus);
-      } else {
-        return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
-          method: 'PUT',
-          headers: this._headers,
-        })
-          .then(this._checkStatus);
-      }
+    _plusLike(id) {
+      return fetch(`${this._baseUrl}/cards/${id}/likes`, {
+        method: "PUT",
+        headers: this._headers,
+      }).then(this._checkStatus);
+    }
+
+    _minusLike(id) {
+      return fetch(`${this._baseUrl}/cards/${id}/likes`, {
+        method: "DELETE",
+        headers: this._headers,
+      }).then(this._checkStatus);
+    }
+
+    likeCard({ cardId, isLiked }) {
+      return isLiked ? this._minusLike(cardId) : this._plusLike(cardId);
     }
 }
-
-const api = new Api({
-  baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-65',
-  headers: {
-    authorization: '502445fb-b5c0-4bb8-954f-20c41125ff94',
-    'Content-Type': 'application/json'
-  }
-});
-
-export default api;
