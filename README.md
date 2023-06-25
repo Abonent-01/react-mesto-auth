@@ -17,4 +17,4 @@
 
 * [Ссылка на макет в Figma]https://www.figma.com/file/kRVLKwYG3d1HGLvh7JFWRT/JavaScript.-Sprint-6?node-id=0%3A1
 
-### Ссылка: https://abonent-01.github.io/mesto/
+### Ссылка: https://abonent-01.github.io/react-mesto-auth/
