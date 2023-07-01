@@ -22,7 +22,7 @@ function Register({ onRegister }) {
   }
 
   return (
-    <div className="auth" onSubmit={handleSubmit}>
+    <div className="auth">
       <h3 className="auth__title">Регистрация</h3>
       <form name="register" className="auth__form" onSubmit={handleSubmit}>
         <input
